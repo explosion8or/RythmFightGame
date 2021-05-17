@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ConductorBehavior : MonoBehaviour
 {
@@ -100,12 +101,12 @@ public class ConductorBehavior : MonoBehaviour
         Debug.Log(IsOnBeat());
     }
 
-    private bool IsOnBeat(){
-        float beatError = songPositionInBeats - (int)songPositionInBeats;
+    private bool IsOnBeat(){    
+        float beatError = songPositionInBeats - /*Math.Truncate*/(int)(songPositionInBeats);
         if(beatError<= errorMargin || beatError >= 1-errorMargin){
-            return true;
-        }else{
             return false;
+        }else{
+            return true;
         }
     }
 }
