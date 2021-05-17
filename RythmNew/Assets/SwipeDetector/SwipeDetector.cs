@@ -28,9 +28,7 @@ public class SwipeDetector : MonoBehaviour
             {
                 fingerDownPosition = touch.position;
                 DetectSwipe();
-            }
-
-            if (touch.phase == TouchPhase.Ended)
+            }else if (touch.phase == TouchPhase.Ended)
             {
                 fingerDownPosition = touch.position;
                 DetectSwipe();
