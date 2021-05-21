@@ -101,7 +101,7 @@ public class ConductorBehavior : MonoBehaviour
         Debug.Log(IsOnBeat());
     }
 
-    private bool IsOnBeat(){    
+    public bool IsOnBeat(){    
         float beatError = songPositionInBeats - /*Math.Truncate*/(int)(songPositionInBeats);
         if(beatError<= errorMargin || beatError >= 1-errorMargin){
             return false;
