@@ -43,12 +43,16 @@ public class ConductorBehavior : MonoBehaviour
     //how many beats off you can be
     public float errorMargin;
 
+    //logic vars
     public int currentStartHit;
     public int currentEndHit;
 
     public bool hitsLeft;
     public bool startHitsLeft;
-  
+    
+    //swipe times
+    public float swipeTimeInBeats;
+    public float swipeTimeInSeconds;
 
     public Hit[] hitList;
 
@@ -129,6 +133,8 @@ public class ConductorBehavior : MonoBehaviour
             //check to end hit
             if(hitList[currentEndHit].BeatEnd <= songPositionInBeats){
                 
+
+
                 OnHitEnd?.Invoke(hitList[currentEndHit]);
 
                 if(currentEndHit+1<hitList.Length){
@@ -141,7 +147,7 @@ public class ConductorBehavior : MonoBehaviour
             }
             //check to start hit
             if(hitList[currentStartHit].BeatStart <= songPositionInBeats && startHitsLeft){
-                
+
                 OnHitStart?.Invoke(hitList[currentStartHit]);
 
                 if(currentStartHit+1<hitList.Length){
@@ -171,16 +177,22 @@ public class ConductorBehavior : MonoBehaviour
 
 
     private void SwipeDetector_OnSwipe(SwipeData data)
-    {
-        Debug.Log(IsOnBeat());
+    {   
+        swipeTimeInBeats = songPositionInBeats -.25f;
+        swipeTimeInSeconds = songPosition;
+        Debug.Log(swipeTimeInBeats);
     }
 
     public bool IsOnBeat(){    
-        float beatError = songPositionInBeats - /*Math.Truncate*/(int)(songPositionInBeats);
+        float beatError = songPositionInBeats - (int)(songPositionInBeats);
         if(beatError<= errorMargin || beatError >= 1-errorMargin){
             return false;
         }else{
             return true;
         }
+    }
+
+    public bool IsOnHit(){
+        return true;
     }
 }

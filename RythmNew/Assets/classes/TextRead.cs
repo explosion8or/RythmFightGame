@@ -21,7 +21,7 @@ public static class TextRead
         for (int i = 0; i < numberOfHits; i++) {
             Hit newHit;
             newHit.BeatStart = 4+(i*4);
-            newHit.BeatEnd = 8+(i*4);
+            newHit.BeatEnd = 7+(i*4);
             newHit.Direction = 0;
 
             HitList[i] = newHit;

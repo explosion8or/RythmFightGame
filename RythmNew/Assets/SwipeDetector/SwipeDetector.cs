@@ -14,6 +14,8 @@ public class SwipeDetector : MonoBehaviour
 
     public static event Action<SwipeData> OnSwipe = delegate { };
 
+    private float swipeTimeInSecs;
+    
     private void Update()
     {
         foreach (Touch touch in Input.touches)
@@ -22,6 +24,7 @@ public class SwipeDetector : MonoBehaviour
             {
                 fingerUpPosition = touch.position;
                 fingerDownPosition = touch.position;
+                
             }
 
             if (!detectSwipeOnlyAfterRelease && touch.phase == TouchPhase.Moved)
@@ -81,6 +84,7 @@ public class SwipeDetector : MonoBehaviour
             Direction = direction,
             StartPosition = fingerDownPosition,
             EndPosition = fingerUpPosition
+           
         };
         OnSwipe(swipeData);
     }
@@ -91,6 +95,7 @@ public struct SwipeData
     public Vector2 StartPosition;
     public Vector2 EndPosition;
     public SwipeDirection Direction;
+    
 }
 
 public enum SwipeDirection
