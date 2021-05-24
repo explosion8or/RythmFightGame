@@ -287,7 +287,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -4730911684715715280, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}
-  m_Color: {r: 1, g: 0.9685534, b: 0.9685534, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -305,8 +305,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785625724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27, y: -116, z: 0}
-  m_LocalScale: {x: 25, y: 25, z: 0.01795445}
+  m_LocalPosition: {x: 29.463, y: -116, z: 0}
+  m_LocalScale: {x: 23.62356, y: 25, z: 0.01795445}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -481,7 +481,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a5c85adf48a33774a95fdd0fbcfa78c9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6e436949ef86f03479aa51f38f3f2c52, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -810,6 +810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2136696950}
   - component: {fileID: 2136696949}
+  - component: {fileID: 2136696951}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -876,9 +877,30 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2136696948}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28, y: -117, z: 1}
-  m_LocalScale: {x: 25, y: 25, z: 1}
+  m_LocalPosition: {x: 32, y: -115, z: 1}
+  m_LocalScale: {x: 22.71063, y: 22.71063, z: 0.9084252}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2136696951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136696948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59526a2754c1d654988621adb0b1be0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.1
+  songBpm: 0
+  secPerBeat: 0
+  songPosition: 0
+  songPositionInBeats: 0
+  dspSongTime: 0
+  musicSource: {fileID: 0}
+  currentHitLOL: 0
+  beatDiff: 0
