@@ -38,6 +38,8 @@ public class ArrowBehaviour : MonoBehaviour
     
     private void ConductorBehavior_OnHitStart(Hit hit){
         Debug.Log("start hit on beat: " + hit.BeatStart);
+        
+
         gameObject.transform.localScale = baseScale*scale;
         //gameObject.SetActive(true);
         targetScale = baseScale;
