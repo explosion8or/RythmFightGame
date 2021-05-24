@@ -43,6 +43,20 @@ public class ConductorBehavior : MonoBehaviour
     //how many beats off you can be
     public float errorMargin;
 
+    public int currentStartHit;
+    public int currentEndHit;
+
+    public bool hitsLeft;
+    public bool startHitsLeft;
+  
+
+    public Hit[] hitList;
+
+    //events
+
+    public event EventHandler OnHitStart;
+    public event EventHandler OnHitEnd;
+
     void Awake()
     {
         instance = this;
@@ -63,13 +77,29 @@ public class ConductorBehavior : MonoBehaviour
         //Calculate the number of seconds in each beat
         secPerBeat = 60f / songBpm;
 
+        //make a queue with all be beats in it from TextRead
+        
+
+        hitList = TextRead.IntakeHits();
+        foreach(Hit hit in hitList){
+            Debug.Log(hit.BeatStart);
+        }
+
+        currentStartHit=0;
+        currentEndHit= 0;
+        hitsLeft = true;
+        startHitsLeft=true;
+
         //Record the time when the music starts
         dspSongTime = (float)AudioSettings.dspTime;
 
         //Start the music
         musicSource.Play();
+
+        
     }
 
+    
     // Update is called once per frame
     void Update()
     {
@@ -86,6 +116,38 @@ public class ConductorBehavior : MonoBehaviour
             Debug.Log((int)songPositionInBeats);
         }
 
+        
+        
+        //check to see if hits left
+        if(hitsLeft){
+            //check to end hit
+            if(hitList[currentEndHit].BeatEnd <= songPositionInBeats){
+                Debug.Log("End that hit");
+
+                if(currentEndHit+1<hitList.Length){
+                    currentEndHit++;
+                }
+                else{
+                    hitsLeft = false;
+                }
+
+            }
+            //check to start hit
+            if(hitList[currentStartHit].BeatStart <= songPositionInBeats && startHitsLeft){
+                Debug.Log("start that hit");
+                if(currentStartHit+1<hitList.Length){
+                    currentStartHit++;
+                }
+                else{
+                    startHitsLeft = false;
+                }
+            }
+
+            
+            
+        }
+
+
         //calculate the loop position
         
         if (songPositionInBeats >= (completedLoops + 1) * beatsPerLoop)
@@ -95,6 +157,8 @@ public class ConductorBehavior : MonoBehaviour
         loopPositionInAnalog = loopPositionInBeats / beatsPerLoop;
         
     }
+
+
 
     private void SwipeDetector_OnSwipe(SwipeData data)
     {
