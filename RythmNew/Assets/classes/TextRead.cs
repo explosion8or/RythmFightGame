@@ -13,7 +13,7 @@ public static class TextRead
     public static Hit[] IntakeHits()
     {
 
-        int numberOfHits = 7;
+        int numberOfHits = 15;
         Hit[] HitList = new Hit[numberOfHits];
         
         //hit with dummy values
@@ -22,7 +22,13 @@ public static class TextRead
             Hit newHit;
             newHit.BeatStart = 4+(i*4);
             newHit.BeatEnd = 7+(i*4);
-            newHit.Direction = 0;
+
+            if(i<4){
+                newHit.Direction = (SwipeDirection) i;
+            }else{
+                newHit.Direction = 0;
+            }
+            
 
             HitList[i] = newHit;
         }

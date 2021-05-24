@@ -243,9 +243,13 @@ MonoBehaviour:
   songPosition: 0
   songPositionInBeats: 0
   dspSongTime: 0
-  musicSource: {fileID: 0}
+  musicSource: {fileID: 1631524515}
   currentHitLOL: 0
   beatDiff: 0
+  setSpriteUp: {fileID: 2117893571776752880, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}
+  setSpriteDown: {fileID: 6294656292074187633, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}
+  setSpriteLeft: {fileID: -4730911684715715280, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}
+  setSpriteRight: {fileID: 7299090840112928469, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}
 --- !u!212 &785625726
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -305,7 +309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785625724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.463, y: -116, z: 0}
+  m_LocalPosition: {x: 16, y: -351, z: 0}
   m_LocalScale: {x: 23.62356, y: 25, z: 0.01795445}
   m_Children: []
   m_Father: {fileID: 0}
@@ -596,6 +600,8 @@ MonoBehaviour:
   startHitsLeft: 0
   swipeTimeInBeats: 0
   swipeTimeInSeconds: 0
+  lastSwipeDirection: 0
+  swipesThisHit: 0
 --- !u!4 &1631524517
 Transform:
   m_ObjectHideFlags: 0
@@ -877,7 +883,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2136696948}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32, y: -115, z: 1}
+  m_LocalPosition: {x: 18.537003, y: -350, z: 1}
   m_LocalScale: {x: 22.71063, y: 22.71063, z: 0.9084252}
   m_Children: []
   m_Father: {fileID: 0}
@@ -904,3 +910,7 @@ MonoBehaviour:
   musicSource: {fileID: 0}
   currentHitLOL: 0
   beatDiff: 0
+  setSpriteUp: {fileID: 4121698340723069456, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}
+  setSpriteDown: {fileID: -1284511325655191278, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}
+  setSpriteLeft: {fileID: -1592370831987964988, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}
+  setSpriteRight: {fileID: 8124156579530861746, guid: c75af31d6226c0142b94d0d8040f9c84, type: 3}

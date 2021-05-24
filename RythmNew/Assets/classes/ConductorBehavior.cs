@@ -60,7 +60,13 @@ public class ConductorBehavior : MonoBehaviour
     public delegate void SendHitDelegate(Hit Hit);
     //events
     public event SendHitDelegate OnHitStart;
-    public event SendHitDelegate OnHitEnd;
+    public event SendHitDelegate OnFailHitEnd;
+    public event SendHitDelegate OnWinHitEnd;
+
+    public SwipeDirection lastSwipeDirection;
+
+    public int swipesThisHit;
+ 
 
     void Awake()
     {
@@ -77,9 +83,9 @@ public class ConductorBehavior : MonoBehaviour
         musicSource = GetComponent<AudioSource>();
 
         //song bpm for battle time
-        songBpm = 140;
+        songBpm = 90;
 
-        errorMargin = .3f;
+        errorMargin = .4f;
 
         //Calculate the number of seconds in each beat
         secPerBeat = 60f / songBpm;
@@ -106,6 +112,8 @@ public class ConductorBehavior : MonoBehaviour
         //Start the music
         musicSource.Play();
 
+        swipesThisHit = 0;
+
         
     }
 
@@ -121,21 +129,39 @@ public class ConductorBehavior : MonoBehaviour
         //determine how many beats since the song started
         songPositionInBeats = songPosition / secPerBeat;
         
-        
+        /*
         if((int)oldSongPositionInBeats != (int)songPositionInBeats){
             Debug.Log((int)songPositionInBeats);
-        }
+        }*/
 
         
         
         //check to see if there are hits left 
         if(hitsLeft){
             //check to end hit
-            if(hitList[currentEndHit].BeatEnd <= songPositionInBeats){
-                
-
-
-                OnHitEnd?.Invoke(hitList[currentEndHit]);
+            if(hitList[currentEndHit].BeatEnd + errorMargin <= songPositionInBeats){
+                Debug.Log(swipesThisHit);
+                if(swipesThisHit == 1){
+                    if(hitList[currentEndHit].BeatEnd <= swipeTimeInBeats+errorMargin && hitList[currentEndHit].BeatEnd >=     swipeTimeInBeats-errorMargin){
+                        //Debug.Log(hitList[currentEndHit].Direction);
+                        if(hitList[currentEndHit].Direction == lastSwipeDirection){
+                            //Debug.Log("Pass");
+                            Debug.Log("Pass");
+                            swipesThisHit = 0;
+                            OnWinHitEnd?.Invoke(hitList[currentEndHit]);
+                        }
+                        else{
+                            FailSwipe();                       
+                        }
+                    }
+                    else{
+                        FailSwipe();
+                    }
+                }
+                else{
+                    FailSwipe();
+                }
+            
 
                 if(currentEndHit+1<hitList.Length){
                     currentEndHit++;
@@ -162,6 +188,7 @@ public class ConductorBehavior : MonoBehaviour
             
         }
         
+        
 
 
         //calculate the loop position
@@ -174,13 +201,23 @@ public class ConductorBehavior : MonoBehaviour
         
     }
 
-
+    private void FailSwipe(){
+        swipesThisHit = 0;
+        OnFailHitEnd?.Invoke(hitList[currentEndHit]);
+    }
 
     private void SwipeDetector_OnSwipe(SwipeData data)
     {   
         swipeTimeInBeats = songPositionInBeats -.25f;
         swipeTimeInSeconds = songPosition;
-        Debug.Log(swipeTimeInBeats);
+        //Debug.Log(swipeTimeInBeats);
+        lastSwipeDirection = data.Direction;
+        if(hitList[currentEndHit].BeatEnd <= swipeTimeInBeats+2 && hitList[currentEndHit].BeatEnd >= swipeTimeInBeats-2){
+            swipesThisHit = swipesThisHit +1;
+        }
+        
+        
+
     }
 
     public bool IsOnBeat(){    

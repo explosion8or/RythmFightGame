@@ -31,6 +31,11 @@ public class arrowInsideLol : MonoBehaviour
     public float currentHitLOL;
 
     public float beatDiff;
+
+    public Sprite setSpriteUp;
+    public Sprite setSpriteDown;
+    public Sprite setSpriteLeft;
+    public Sprite setSpriteRight;
     
     Renderer ye_ObjectRenderer;
     // Start is called before the first frame update
@@ -39,7 +44,8 @@ public class arrowInsideLol : MonoBehaviour
         conductor = GameObject.Find("Conductor");
         ConductorBehavior conductorBehavior = conductor.GetComponent<ConductorBehavior>();
 
-        conductorBehavior.OnHitEnd += ConductorBehavior_OnHitEnd;
+        conductorBehavior.OnWinHitEnd += ConductorBehavior_OnWinHitEnd;
+        conductorBehavior.OnFailHitEnd += ConductorBehavior_OnFailHitEnd;
         conductorBehavior.OnHitStart += ConductorBehavior_OnHitStart;
         gameObject.SetActive(false);
 
@@ -47,7 +53,7 @@ public class arrowInsideLol : MonoBehaviour
 
 
         musicSource = GetComponent<AudioSource>();
-        songBpm = 140;
+        songBpm = 90;
         secPerBeat = 60f / songBpm;
         dspSongTime = (float)AudioSettings.dspTime;
         currentHitLOL=0;
@@ -66,23 +72,48 @@ public class arrowInsideLol : MonoBehaviour
 
         float yeet = (songPositionInBeats - currentHitLOL)/beatDiff;
         Color textureColor = ye_ObjectRenderer.material.color;
-        textureColor.a = yeet+.5f;
+        textureColor.a = yeet-.3f;
         ye_ObjectRenderer.material.color = textureColor;
     }
 
     // Update is called once per frame
-     private void ConductorBehavior_OnHitStart(Hit hit){
-        gameObject.SetActive(true);
-        
-        
-        
+    private void ConductorBehavior_OnHitStart(Hit hit){
+        gameObject.SetActive(false);
         beatDiff = hit.BeatEnd - hit.BeatStart;
         currentHitLOL = hit.BeatStart;
+        
+
+        if(((int) hit.Direction) == 0){
+            //up
+            //Debug.Log("up");
+            this.GetComponent<SpriteRenderer>().sprite = setSpriteUp;
+        }else if(((int) hit.Direction) == 1){
+            //down
+            //Debug.Log("down");
+            this.GetComponent<SpriteRenderer>().sprite = setSpriteDown;
+        }else if(((int) hit.Direction) == 3){
+            //left
+            this.GetComponent<SpriteRenderer>().sprite = setSpriteLeft;
+        }else if(((int) hit.Direction) == 2){
+            //right
+            this.GetComponent<SpriteRenderer>().sprite = setSpriteRight;
+        }
         gameObject.SetActive(true);
     } 
 
-    private void ConductorBehavior_OnHitEnd(Hit hit){
-        gameObject.SetActive(false);
+    private void ConductorBehavior_OnWinHitEnd(Hit hit){
+        if(songPositionInBeats >= hit.BeatEnd){
+            gameObject.SetActive(false);
+        }
+        
+
+    }
+
+    private void ConductorBehavior_OnFailHitEnd(Hit hit){
+        //Debug.Log("end hit on beat: " + hit.BeatEnd);
+        if(songPositionInBeats >= hit.BeatEnd){
+            gameObject.SetActive(false);
+        }
         
 
     }
