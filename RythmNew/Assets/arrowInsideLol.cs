@@ -53,7 +53,7 @@ public class arrowInsideLol : MonoBehaviour
 
 
         musicSource = GetComponent<AudioSource>();
-        songBpm = 90;
+        songBpm = 140;
         secPerBeat = 60f / songBpm;
         dspSongTime = (float)AudioSettings.dspTime;
         currentHitLOL=0;

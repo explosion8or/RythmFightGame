@@ -83,7 +83,7 @@ public class ConductorBehavior : MonoBehaviour
         musicSource = GetComponent<AudioSource>();
 
         //song bpm for battle time
-        songBpm = 90;
+        songBpm = 140;
 
         errorMargin = .4f;
 
