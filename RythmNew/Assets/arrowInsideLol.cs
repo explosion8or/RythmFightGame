@@ -2,16 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class ArrowBehaviour : MonoBehaviour
+public class arrowInsideLol : MonoBehaviour
 {
-
-    
     public float speed = .1f;
-    public int scale = 20;
-
-    private Vector3 targetScale;
-    private Vector3 baseScale;
+    
 
     GameObject conductor;
 
@@ -38,9 +32,7 @@ public class ArrowBehaviour : MonoBehaviour
 
     public float beatDiff;
     
-    Renderer m_ObjectRenderer;
-
-    
+    Renderer ye_ObjectRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,9 +43,7 @@ public class ArrowBehaviour : MonoBehaviour
         conductorBehavior.OnHitStart += ConductorBehavior_OnHitStart;
         gameObject.SetActive(false);
 
-        baseScale = gameObject.transform.localScale;
-        gameObject.transform.localScale = baseScale*scale;
-        targetScale = baseScale*scale;
+       
 
 
         musicSource = GetComponent<AudioSource>();
@@ -63,12 +53,10 @@ public class ArrowBehaviour : MonoBehaviour
         currentHitLOL=0;
 
         //Fetch the GameObject's Renderer component
-        m_ObjectRenderer = GetComponent<Renderer>();
+        ye_ObjectRenderer = GetComponent<Renderer>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {  
+    void Update() {
         songPosition = (float)(AudioSettings.dspTime - dspSongTime);
         //Debug.Log(songPosition);
 
@@ -77,35 +65,25 @@ public class ArrowBehaviour : MonoBehaviour
         songPositionInBeats = songPosition / secPerBeat;
 
         float yeet = (songPositionInBeats - currentHitLOL)/beatDiff;
-
-        transform.localScale = Vector3.Lerp((baseScale*scale), targetScale, yeet);
-        //Debug.Log(yeet);
-        Color textureColor = m_ObjectRenderer.material.color;
-        textureColor.a = yeet;
-        m_ObjectRenderer.material.color = textureColor;
+        Color textureColor = ye_ObjectRenderer.material.color;
+        textureColor.a = yeet+.5f;
+        ye_ObjectRenderer.material.color = textureColor;
     }
-    
-    private void ConductorBehavior_OnHitStart(Hit hit){
-        Debug.Log("start hit on beat: " + hit.BeatStart);
+
+    // Update is called once per frame
+     private void ConductorBehavior_OnHitStart(Hit hit){
+        gameObject.SetActive(true);
+        
         
         
         beatDiff = hit.BeatEnd - hit.BeatStart;
         currentHitLOL = hit.BeatStart;
-
-
-        gameObject.transform.localScale = baseScale*scale;
         gameObject.SetActive(true);
-        targetScale = baseScale;
-        
-        
     } 
 
     private void ConductorBehavior_OnHitEnd(Hit hit){
-        Debug.Log("end hit on beat: " + hit.BeatEnd);
         gameObject.SetActive(false);
         
 
     }
-
-    
 }
