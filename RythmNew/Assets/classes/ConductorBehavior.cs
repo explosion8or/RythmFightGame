@@ -52,10 +52,11 @@ public class ConductorBehavior : MonoBehaviour
 
     public Hit[] hitList;
 
+    //delegates
+    public delegate void SendHitDelegate(Hit Hit);
     //events
-
-    public event EventHandler OnHitStart;
-    public event EventHandler OnHitEnd;
+    public event SendHitDelegate OnHitStart;
+    public event SendHitDelegate OnHitEnd;
 
     void Awake()
     {
@@ -66,6 +67,8 @@ public class ConductorBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        gameObject.tag = "Conductor";
         //Load the AudioSource attached to the Conductor GameObject
         musicSource = GetComponent<AudioSource>();
 
@@ -81,9 +84,12 @@ public class ConductorBehavior : MonoBehaviour
         
 
         hitList = TextRead.IntakeHits();
+
+        //debug for start hits
+        /*
         foreach(Hit hit in hitList){
             Debug.Log(hit.BeatStart);
-        }
+        }*/
 
         currentStartHit=0;
         currentEndHit= 0;
@@ -118,11 +124,12 @@ public class ConductorBehavior : MonoBehaviour
 
         
         
-        //check to see if hits left
+        //check to see if there are hits left 
         if(hitsLeft){
             //check to end hit
             if(hitList[currentEndHit].BeatEnd <= songPositionInBeats){
-                Debug.Log("End that hit");
+                
+                OnHitEnd?.Invoke(hitList[currentEndHit]);
 
                 if(currentEndHit+1<hitList.Length){
                     currentEndHit++;
@@ -134,7 +141,9 @@ public class ConductorBehavior : MonoBehaviour
             }
             //check to start hit
             if(hitList[currentStartHit].BeatStart <= songPositionInBeats && startHitsLeft){
-                Debug.Log("start that hit");
+                
+                OnHitStart?.Invoke(hitList[currentStartHit]);
+
                 if(currentStartHit+1<hitList.Length){
                     currentStartHit++;
                 }
@@ -146,6 +155,7 @@ public class ConductorBehavior : MonoBehaviour
             
             
         }
+        
 
 
         //calculate the loop position
