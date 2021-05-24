@@ -236,6 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba7c4ac4e7eaa4a4ebe02c5edd4becd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1
+  scale: 15
 --- !u!212 &785625726
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -277,7 +279,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.01886791, g: 0.018066913, b: 0.018066913, a: 0.64705884}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -295,8 +297,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785625724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 0.8503, z: 0}
-  m_LocalScale: {x: 1000, y: 1392.712, z: 1}
+  m_LocalPosition: {x: 2, y: -0, z: 0}
+  m_LocalScale: {x: 125.41509, y: 174.66711, z: 0.12541509}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -584,6 +586,8 @@ MonoBehaviour:
   currentEndHit: 0
   hitsLeft: 0
   startHitsLeft: 0
+  swipeTimeInBeats: 0
+  swipeTimeInSeconds: 0
 --- !u!4 &1631524517
 Transform:
   m_ObjectHideFlags: 0
