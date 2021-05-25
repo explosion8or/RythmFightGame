@@ -66,12 +66,17 @@ public class ConductorBehavior : MonoBehaviour
     public SwipeDirection lastSwipeDirection;
 
     public int swipesThisHit;
+
+    public float startSwipeInBeats;
  
+    public float finalSwipeTime;
 
     void Awake()
     {
         instance = this;
         SwipeDetector.OnSwipe += SwipeDetector_OnSwipe;
+        SwipeDetector.OnSwipeStart += SwipeDetector_OnSwipeStart;
+        
     }
 
     // Start is called before the first frame update
@@ -113,8 +118,6 @@ public class ConductorBehavior : MonoBehaviour
         musicSource.Play();
 
         swipesThisHit = 0;
-
-        
     }
 
     
@@ -140,9 +143,9 @@ public class ConductorBehavior : MonoBehaviour
         if(hitsLeft){
             //check to end hit
             if(hitList[currentEndHit].BeatEnd + errorMargin <= songPositionInBeats){
-                Debug.Log(swipesThisHit);
+                //Debug.Log(swipesThisHit);
                 if(swipesThisHit == 1){
-                    if(hitList[currentEndHit].BeatEnd <= swipeTimeInBeats+errorMargin && hitList[currentEndHit].BeatEnd >=     swipeTimeInBeats-errorMargin){
+                    if(finalSwipeTime>= hitList[currentEndHit].BeatEnd && hitList[currentEndHit].BeatEnd >=     finalSwipeTime-errorMargin){
                         //Debug.Log(hitList[currentEndHit].Direction);
                         if(hitList[currentEndHit].Direction == lastSwipeDirection){
                             //Debug.Log("Pass");
@@ -206,17 +209,21 @@ public class ConductorBehavior : MonoBehaviour
         OnFailHitEnd?.Invoke(hitList[currentEndHit]);
     }
 
+    private void SwipeDetector_OnSwipeStart(SwipeData data){
+        startSwipeInBeats = songPositionInBeats;
+        //Debug.Log(startSwipeInBeats);
+    }
+
     private void SwipeDetector_OnSwipe(SwipeData data)
     {   
-        swipeTimeInBeats = songPositionInBeats -.25f;
-        swipeTimeInSeconds = songPosition;
+        swipeTimeInBeats = songPositionInBeats;
         //Debug.Log(swipeTimeInBeats);
         lastSwipeDirection = data.Direction;
         if(hitList[currentEndHit].BeatEnd <= swipeTimeInBeats+2 && hitList[currentEndHit].BeatEnd >= swipeTimeInBeats-2){
             swipesThisHit = swipesThisHit +1;
         }
         
-        
+        finalSwipeTime = (swipeTimeInBeats + startSwipeInBeats)/2;
 
     }
 

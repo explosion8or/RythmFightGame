@@ -45,6 +45,13 @@ public class ArrowBehaviour : MonoBehaviour
     public Sprite setSpriteLeft;
     public Sprite setSpriteRight;
 
+    public int currentHitEnd;
+    public int currentHitStart;
+
+    private Hit[] hitList;
+
+    public bool yeetFlag;
+
     
     // Start is called before the first frame update
     void Start()
@@ -52,10 +59,14 @@ public class ArrowBehaviour : MonoBehaviour
         conductor = GameObject.Find("Conductor");
         ConductorBehavior conductorBehavior = conductor.GetComponent<ConductorBehavior>();
 
+        m_ObjectRenderer = GetComponent<Renderer>();
+
         conductorBehavior.OnWinHitEnd += ConductorBehavior_OnWinHitEnd;
         conductorBehavior.OnFailHitEnd += ConductorBehavior_OnFailHitEnd;
         conductorBehavior.OnHitStart += ConductorBehavior_OnHitStart;
-        gameObject.SetActive(false);
+        Color textureColor = m_ObjectRenderer.material.color;
+        textureColor.a = 0;
+        m_ObjectRenderer.material.color = textureColor;
 
         baseScale = gameObject.transform.localScale;
         gameObject.transform.localScale = baseScale*scale;
@@ -69,12 +80,41 @@ public class ArrowBehaviour : MonoBehaviour
         currentHitLOL=0;
 
         //Fetch the GameObject's Renderer component
-        m_ObjectRenderer = GetComponent<Renderer>();
+        
+
+        hitList = TextRead.IntakeHits();
+        currentHitEnd = 0;
+        currentHitStart = 0;
     }
 
     // Update is called once per frame
     void Update()
     {  
+        
+        if(currentHitStart < hitList.Length){
+            if(hitList[currentHitStart].BeatStart<=songPositionInBeats){
+                Color textureColorJ = m_ObjectRenderer.material.color;
+                textureColorJ.a = 1;
+                m_ObjectRenderer.material.color = textureColorJ;
+                currentHitStart++;
+                yeetFlag = true;
+            }
+        }
+
+
+        if(currentHitStart < hitList.Length){
+            if(hitList[currentHitEnd].BeatEnd<=songPositionInBeats && currentHitEnd <= hitList.Length){
+                Color textureColorH = m_ObjectRenderer.material.color;
+                textureColorH.a = 0;
+                m_ObjectRenderer.material.color = textureColorH;
+                currentHitEnd++;
+                yeetFlag = false;
+            }
+        }
+
+        
+
+        
         songPosition = (float)(AudioSettings.dspTime - dspSongTime);
         //Debug.Log(songPosition);
 
@@ -82,13 +122,14 @@ public class ArrowBehaviour : MonoBehaviour
         //determine how many beats since the song started
         songPositionInBeats = songPosition / secPerBeat;
 
-        float yeet = (songPositionInBeats - currentHitLOL)/beatDiff;
-
-        transform.localScale = Vector3.Lerp((baseScale*scale), targetScale, yeet);
-        //Debug.Log(yeet);
-        Color textureColor = m_ObjectRenderer.material.color;
-        textureColor.a = yeet-.3f;
-        m_ObjectRenderer.material.color = textureColor;
+        if(yeetFlag){
+            float yeet = (songPositionInBeats - currentHitLOL)/beatDiff;
+            transform.localScale = Vector3.Lerp((baseScale*scale), targetScale, yeet);
+            //Debug.Log(yeet);
+            Color textureColor = m_ObjectRenderer.material.color;
+            textureColor.a = yeet-.3f;
+            m_ObjectRenderer.material.color = textureColor;
+        }
     }
     
     private void ConductorBehavior_OnHitStart(Hit hit){
@@ -118,21 +159,17 @@ public class ArrowBehaviour : MonoBehaviour
         gameObject.transform.localScale = baseScale*scale;
         targetScale = baseScale;
         
-        gameObject.SetActive(true);
+        
         
     } 
 
     private void ConductorBehavior_OnFailHitEnd(Hit hit){
         Debug.Log("Failed a beat");
-        if(songPositionInBeats >= hit.BeatEnd){
-            gameObject.SetActive(false);
-        }
+        
     }
     private void ConductorBehavior_OnWinHitEnd(Hit hit){
         //Debug.Log("end hit on beat: " + hit.BeatEnd);
-
-        if(songPositionInBeats >= hit.BeatEnd){
-            gameObject.SetActive(false);
-        }
+        
+        
     }
 }

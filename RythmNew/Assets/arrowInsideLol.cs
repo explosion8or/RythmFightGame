@@ -36,21 +36,35 @@ public class arrowInsideLol : MonoBehaviour
     public Sprite setSpriteDown;
     public Sprite setSpriteLeft;
     public Sprite setSpriteRight;
+
+    public int currentHitEnd;
+    public int currentHitStart;
+
+    private Hit[] hitList;
     
     Renderer ye_ObjectRenderer;
+    Color textureColor;
+
+    public bool yeetFlag;
     // Start is called before the first frame update
     void Start()
     {
         conductor = GameObject.Find("Conductor");
         ConductorBehavior conductorBehavior = conductor.GetComponent<ConductorBehavior>();
+        
+        ye_ObjectRenderer = GetComponent<Renderer>();
 
         conductorBehavior.OnWinHitEnd += ConductorBehavior_OnWinHitEnd;
         conductorBehavior.OnFailHitEnd += ConductorBehavior_OnFailHitEnd;
         conductorBehavior.OnHitStart += ConductorBehavior_OnHitStart;
-        gameObject.SetActive(false);
 
-       
+        textureColor = ye_ObjectRenderer.material.color;
+        textureColor.a = 0;
+        ye_ObjectRenderer.material.color = textureColor;
 
+        hitList = TextRead.IntakeHits();
+        currentHitEnd = 0;
+        currentHitStart = 0;
 
         musicSource = GetComponent<AudioSource>();
         songBpm = 140;
@@ -59,26 +73,54 @@ public class arrowInsideLol : MonoBehaviour
         currentHitLOL=0;
 
         //Fetch the GameObject's Renderer component
-        ye_ObjectRenderer = GetComponent<Renderer>();
+        
     }
 
     void Update() {
+
+        
+        if(currentHitStart < hitList.Length){
+            if(hitList[currentHitEnd].BeatEnd<=songPositionInBeats && currentHitEnd <= hitList.Length){
+                Color textureColorH = ye_ObjectRenderer.material.color;
+                textureColorH.a = 0;
+                ye_ObjectRenderer.material.color = textureColorH;
+                currentHitEnd++;
+                yeetFlag = false;
+            }
+        }
+        
+        if(currentHitStart < hitList.Length){
+            if(hitList[currentHitStart].BeatStart<=songPositionInBeats && currentHitStart <= hitList.Length){
+                Color textureColorJ = ye_ObjectRenderer.material.color;
+                textureColorJ.a = 1;
+                ye_ObjectRenderer.material.color = textureColorJ;
+                currentHitStart++;
+                yeetFlag = true;
+            }
+        }
+
+
+        
+        
+        
         songPosition = (float)(AudioSettings.dspTime - dspSongTime);
         //Debug.Log(songPosition);
 
+        
         float oldSongPositionInBeats = songPositionInBeats;
         //determine how many beats since the song started
         songPositionInBeats = songPosition / secPerBeat;
+        if(yeetFlag){
+            float yeet = (songPositionInBeats - currentHitLOL)/beatDiff;
 
-        float yeet = (songPositionInBeats - currentHitLOL)/beatDiff;
-        Color textureColor = ye_ObjectRenderer.material.color;
-        textureColor.a = yeet-.3f;
-        ye_ObjectRenderer.material.color = textureColor;
+            Color textureColor = ye_ObjectRenderer.material.color;
+            textureColor.a = yeet-.3f;
+            ye_ObjectRenderer.material.color = textureColor;
+        }
     }
 
     // Update is called once per frame
     private void ConductorBehavior_OnHitStart(Hit hit){
-        gameObject.SetActive(false);
         beatDiff = hit.BeatEnd - hit.BeatStart;
         currentHitLOL = hit.BeatStart;
         
@@ -98,23 +140,15 @@ public class arrowInsideLol : MonoBehaviour
             //right
             this.GetComponent<SpriteRenderer>().sprite = setSpriteRight;
         }
-        gameObject.SetActive(true);
     } 
 
     private void ConductorBehavior_OnWinHitEnd(Hit hit){
-        if(songPositionInBeats >= hit.BeatEnd){
-            gameObject.SetActive(false);
-        }
         
 
     }
 
     private void ConductorBehavior_OnFailHitEnd(Hit hit){
-        //Debug.Log("end hit on beat: " + hit.BeatEnd);
-        if(songPositionInBeats >= hit.BeatEnd){
-            gameObject.SetActive(false);
-        }
-        
+        //Debug.Log("end hit on beat: " + hit.BeatEnd); 
 
     }
 }
