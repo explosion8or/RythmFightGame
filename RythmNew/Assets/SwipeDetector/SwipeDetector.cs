@@ -10,7 +10,7 @@ public class SwipeDetector : MonoBehaviour
     private bool detectSwipeOnlyAfterRelease = false;
 
     [SerializeField]
-    private float minDistanceForSwipe = 40f;
+    private float minDistanceForSwipe = 20f;
 
     public static event Action<SwipeData> OnSwipe = delegate { };
     public static event Action<SwipeData> OnSwipeStart = delegate { };

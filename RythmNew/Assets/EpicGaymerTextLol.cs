@@ -59,7 +59,7 @@ public class  EpicGaymerTextLol : MonoBehaviour
             runText = false;
         }
 
-        if(Kewlade<=songPositionInBeats - 1 ){
+        if(Kewlade<=songPositionInBeats - .5 ){
             m_TextComponent.text = "";
         }
     }

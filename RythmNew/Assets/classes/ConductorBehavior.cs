@@ -90,7 +90,7 @@ public class ConductorBehavior : MonoBehaviour
         //song bpm for battle time
         songBpm = 140;
 
-        errorMargin = .4f;
+        errorMargin = .6f;
 
         //Calculate the number of seconds in each beat
         secPerBeat = 60f / songBpm;
