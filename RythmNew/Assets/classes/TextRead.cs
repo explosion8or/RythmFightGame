@@ -14,7 +14,7 @@ public static class TextRead
     public static Hit[] IntakeHits()
     {
         //string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Public\TestFolder\WriteLines2.txt");
-        int numberOfHits = 96;
+        int numberOfHits = 88;
         Hit[] HitList = new Hit[numberOfHits];
         
         //hit with dummy values
