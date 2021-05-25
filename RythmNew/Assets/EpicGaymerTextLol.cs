@@ -77,7 +77,28 @@ public class  EpicGaymerTextLol : MonoBehaviour
         textGradient.topRight = new Color32 (0, 100, 10, 255);
         GetComponent<TMP_Text>().colorGradient = textGradient;
         runText = true;
-        m_TextComponent.text = "Pass";
+
+        int bru = Random.Range(0, 4);
+        switch (bru)
+        {
+            case 1:
+                m_TextComponent.text = "Good!";
+                break;
+            case 2:
+                m_TextComponent.text = "Nailed It!";
+                break;
+            case 3:
+                m_TextComponent.text = "GG Ez!";  
+                break;
+            case 0:
+                m_TextComponent.text = "EPIC!";
+                break;
+            default:
+                m_TextComponent.text = "What?";
+                break;
+        }
+
+        
     }
 
     private void ConductorBehavior_OnFailHitEnd(Hit hit){
@@ -89,6 +110,25 @@ public class  EpicGaymerTextLol : MonoBehaviour
         textGradient.topRight = new Color32 (255, 0, 10, 255);
         GetComponent<TMP_Text>().colorGradient = textGradient;
         runText = true;
-        m_TextComponent.text = "Trash   ";
+        
+        int bru = Random.Range(0, 4);
+        switch (bru)
+        {
+            case 1:
+                m_TextComponent.text = "Trash!";
+                break;
+            case 2:
+                m_TextComponent.text = "Gross!";
+                break;
+            case 3:
+                m_TextComponent.text = "Ew!";  
+                break;
+            case 0:
+                m_TextComponent.text = "Too Bad";
+                break;
+            default:
+                m_TextComponent.text = "What?";
+                break;
+        }
     }
 }

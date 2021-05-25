@@ -30,7 +30,7 @@ public static class TextRead
                 newHit.Direction = (SwipeDirection) Random.Range(0, 4);
             }
             
-
+        
             HitList[i] = newHit;
         }
         return HitList;  
